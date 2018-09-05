@@ -1,6 +1,8 @@
-import sayHello from './lib/hello';
-import './lib/index.scss';
+// import `.scss` files
+import './scss/styles.scss';
 
-document.getElementById('root').innerHTML = sayHello();
+// import StyledElements class
+import {StyledElements as defaultExport} from './lib/styled-elements';
 
-
+// export default StyledElements class
+export default defaultExport;
