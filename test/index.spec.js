@@ -13,6 +13,13 @@ describe('Given an instance of StyledElements library', () => {
     lib = new StyledElements();
     lib.init();
   });
+  describe('StyledElements instance', () => {
+    it('should be a singleton', () => {
+      const newLib = new StyledElements();
+
+      expect(lib.initialized).to.be.equal(newLib.initialized);
+    });
+  });
   describe('Load configuration: get config()', () => {
     it('should return the config object', () => {
       expect(lib.config).to.be.an('object');

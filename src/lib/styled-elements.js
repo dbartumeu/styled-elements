@@ -1,11 +1,18 @@
 // import dependencies
 
-// return StyledElements class
-export class StyledElements {
+let instance = null;
+
+class StyledElements {
 
   constructor(config) {
+    if (!instance) {
+      instance = this;
+    }
+
     this._config = config || {};
-    this._initialized = false;
+    this._initialized = new Date();
+
+    return instance;
   }
 
   get config() {
@@ -16,8 +23,12 @@ export class StyledElements {
     return this._initialized;
   }
 
-  // initialize plugin
+  /**
+   * Initialize Styled Elements
+   */
   init() {
     this._initialized = true;
   }
 }
+
+export default StyledElements;

@@ -4,16 +4,16 @@
 	else if(typeof define === 'function' && define.amd)
 		define([], factory);
 	else if(typeof exports === 'object')
-		exports["UserList"] = factory();
+		exports["StyledElements"] = factory();
 	else
-		root["UserList"] = factory();
+		root["StyledElements"] = factory();
 })(typeof self !== 'undefined' ? self : this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	function hotDisposeChunk(chunkId) {
 /******/ 		delete installedChunks[chunkId];
 /******/ 	}
-/******/ 	var parentHotUpdateCallback = window["webpackHotUpdateUserList"];
-/******/ 	window["webpackHotUpdateUserList"] = 
+/******/ 	var parentHotUpdateCallback = window["webpackHotUpdateStyledElements"];
+/******/ 	window["webpackHotUpdateStyledElements"] = 
 /******/ 	function webpackHotUpdateCallback(chunkId, moreModules) { // eslint-disable-line no-unused-vars
 /******/ 		hotAddUpdateChunk(chunkId, moreModules);
 /******/ 		if(parentHotUpdateCallback) parentHotUpdateCallback(chunkId, moreModules);
@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "b6e5577beeb97a3f604b"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "7712fc2655249ba06adb"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -764,9 +764,13 @@ __webpack_require__(2);
 
 var _styledElements = __webpack_require__(6);
 
+var _styledElements2 = _interopRequireDefault(_styledElements);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 // export default StyledElements class
 // import `.scss` files
-exports.default = _styledElements.StyledElements;
+exports.default = _styledElements2.default;
 
 // import StyledElements class
 
@@ -1400,20 +1404,29 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 // import dependencies
 
-// return StyledElements class
-var StyledElements = exports.StyledElements = function () {
+var instance = null;
+
+var StyledElements = function () {
   function StyledElements(config) {
     _classCallCheck(this, StyledElements);
 
+    if (!instance) {
+      instance = this;
+    }
+
     this._config = config || {};
-    this._initialized = false;
+    this._initialized = new Date();
+
+    return instance;
   }
 
   _createClass(StyledElements, [{
     key: "init",
 
 
-    // initialize plugin
+    /**
+     * Initialize Styled Elements
+     */
     value: function init() {
       this._initialized = true;
     }
@@ -1431,6 +1444,8 @@ var StyledElements = exports.StyledElements = function () {
 
   return StyledElements;
 }();
+
+exports.default = StyledElements;
 
 /***/ })
 /******/ ])["default"];
