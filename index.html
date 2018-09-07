@@ -6,12 +6,22 @@
   <title>Styled Elements</title>
 </head>
 <body>
-<div id="app"></div>
+<div id="app">
+  <div styled-elem padding="10px">some text</div>
+  <div id="text1" styled-elem>some text1</div>
+  <div styled-elem>some text2</div>
+  <div styled-elem>some text3</div>
+</div>
 
 <!-- plugin initialization -->
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     var styledElements = new StyledElements();
+
+    setTimeout(() => {
+      document.getElementById('text1').setAttribute('padding', '10px');
+      document.getElementById('text1').setAttribute('color', 'red');
+    }, 5000)
 
     // initialize
     styledElements.init();
