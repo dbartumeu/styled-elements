@@ -1,5 +1,4 @@
 // import dependencies
-import {blacklistAttrs} from '../config/attrs';
 
 export class DOMWatcher {
   constructor(uIdName) {
@@ -76,31 +75,41 @@ export class DOMWatcher {
 export class ATTRWatcher {
   _elements = {};
 
-  constructor(uIdName, selectors) {
+  constructor(uIdName, properties) {
     this.uIdName = uIdName;
-    this.selectors = [...blacklistAttrs, ...selectors];
+    this.properties = properties;
   }
 
   watch(element, changesFn) {
     const id = element[this.uIdName];
+    const self = this;
 
-    this._elements[id] = new MutationObserver(function (mutations) {
-      mutations.forEach(function (mutation) {
-        changesFn(mutation.target, mutation.attributeName);
-      });
+    this._elements[id] = new MutationObserver(() => {
+      const attrs = element.attributes;
+      const emitAttrs = [];
+
+      for (let i = attrs.length - 1; i >= 0; i--) {
+        if (self.properties.find(watchedAttr => watchedAttr === attrs[i].name)) {
+          emitAttrs.push({name: attrs[i].name, value: attrs[i].value});
+        }
+      }
+      changesFn(element, emitAttrs);
     });
 
     if (element.hasAttributes()) {
       const attrs = element.attributes;
+      const emitAttrs = [];
 
       for (let i = attrs.length - 1; i >= 0; i--) {
-        if (!this.selectors.find(selector => selector === attrs[i].name)) {
-          changesFn(element, attrs[i].name);
+        if (this.properties.find(property => property === attrs[i].name)) {
+          emitAttrs.push({name: attrs[i].name, value: attrs[i].value});
         }
       }
+
+      changesFn(element, emitAttrs);
     }
 
-    this._elements[id].observe(element, {attributes: true});
+    this._elements[id].observe(element, {attributes: true, attributeFilter: this.attrs});
   }
 
   unwatch(id) {

@@ -1,6 +1,7 @@
 // import dependencies
 import Hashids from 'hashids';
 import {ATTRWatcher, DOMWatcher} from './watchers';
+import {properties} from '../config/attrs';
 
 let instance = null;
 
@@ -17,7 +18,7 @@ class StyledElements {
 
     this.hashids = new Hashids('styled_elements', 5);
     this.domWatcher = new DOMWatcher(this._uIdName);
-    this.attrWatcher = new ATTRWatcher(this._uIdName, this._selectors);
+    this.attrWatcher = new ATTRWatcher(this._uIdName, properties);
 
     this._config = config || {};
     this._instatiated = new Date();
@@ -56,8 +57,8 @@ class StyledElements {
     console.log('Removing element: ', element);
   }
 
-  handleChanges(element, attr) {
-    console.log('Change element: ', element, attr);
+  handleChanges(element, attrs) {
+    console.log('Change element: ', element, attrs);
   }
 
   /**
