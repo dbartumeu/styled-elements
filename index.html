@@ -7,10 +7,10 @@
 </head>
 <body>
 <div id="app">
-  <div styled-elem padding="10px">some text</div>
-  <div id="text1" styled-elem>some text1</div>
-  <div id="text2" styled-elem>some text2</div>
-  <div styled-elem>some text3</div>
+  <div se.padding="10px">some text</div>
+  <div id="text1" se.color="red">some text1</div>
+  <div id="text2" se.color="red">some text2</div>
+  <div se.padding="10px">some text3</div>
 </div>
 
 <!-- plugin initialization -->
@@ -19,16 +19,16 @@
     var styledElements = new StyledElements();
 
     setTimeout(() => {
-      document.getElementById('text1').setAttribute('padding', '12px');
-      document.getElementById('text1').setAttribute('color', 'yellow');
-    }, 2000)
+      document.getElementById('text1').setAttribute('se.padding', '12px');
+      document.getElementById('text1').setAttribute('se.color', 'yellow');
+    }, 2000);
 
     setTimeout(() => {
-      document.getElementById('text1').setAttribute('padding', '10px');
-      document.getElementById('text1').setAttribute('color', 'red');
-      document.getElementById('text2').setAttribute('color', 'blue');
-      document.getElementById('text1').setAttribute('padding', '2px');
-    }, 5000)
+      document.getElementById('text1').setAttribute('se.padding', '10px');
+      document.getElementById('text1').setAttribute('se.color', 'red');
+      document.getElementById('text2').setAttribute('se.padding', '10px');
+      document.getElementById('text2').setAttribute('se.color', 'red');
+    }, 5000);
 
     // initialize
     styledElements.init();

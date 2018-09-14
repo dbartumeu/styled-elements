@@ -2,12 +2,13 @@
 import Hashids from 'hashids';
 import {ATTRWatcher, DOMWatcher} from './watchers';
 import {properties} from '../config/attrs';
+import RuleManager from './rule-manager';
 
 let instance = null;
 
 class StyledElements {
   _uIdName = 'seId';
-  _selectors = ['styled-elem', 'se'];
+  _selector = 'se.';
   _currentId = 0;
   _elements = {};
 
@@ -18,7 +19,8 @@ class StyledElements {
 
     this.hashids = new Hashids('styled_elements', 5);
     this.domWatcher = new DOMWatcher(this._uIdName);
-    this.attrWatcher = new ATTRWatcher(this._uIdName, properties);
+    this.attrWatcher = new ATTRWatcher(this._uIdName, this._selector, properties);
+    this.ruleManager = new RuleManager();
 
     this._config = config || {};
     this._instatiated = new Date();
@@ -47,18 +49,20 @@ class StyledElements {
     element[this._uIdName] = this.hashids.encode(this.nextId);
     element.classList.add();
     this.attrWatcher.watch(element, this.handleChanges.bind(this));
-    console.log('Adding element: ', element);
+    // console.log('Adding element: ', element);
   }
 
   handleDeletions(element) {
     // Prevent call this function twice. TODO Find a method to implement this inside the watcher
     element.ready = false;
     this.attrWatcher.unwatch(element[this._uIdName]);
-    console.log('Removing element: ', element);
+    // console.log('Removing element: ', element);
   }
 
   handleChanges(element, attrs) {
     console.log('Change element: ', element, attrs);
+    this.ruleManager.setRule(element, attrs);
+    // console.log(this.ruleManager.rules);
   }
 
   /**
@@ -66,9 +70,7 @@ class StyledElements {
    */
   init() {
 
-    this._selectors.forEach(selector => {
-      this.domWatcher.watch(`[${selector}]`, this.handleAdditions.bind(this), this.handleDeletions.bind(this));
-    });
+    this.domWatcher.watch(this._selector, this.handleAdditions.bind(this), this.handleDeletions.bind(this));
 
     this._initialized = new Date();
   }
