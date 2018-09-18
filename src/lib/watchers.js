@@ -13,28 +13,43 @@ export class DOMWatcher {
     const attrSelector = this.listener.selector;
     const attrs = el.attributes;
 
-    for (let i = 0, jLen = attrs.length, attr; i < jLen; i++) {
-      attr = attrs[i].name;
-      if (attr.startsWith(attrSelector)) {
-        return true;
+    if (attrs.length) {
+      for (let i = 0, jLen = attrs.length, attr; i < jLen; i++) {
+        attr = attrs[i].name;
+        if (attr.startsWith(attrSelector)) {
+          return true;
+        }
       }
     }
 
     return false;
   }
 
-  _checkAdditions() {
-    const elements = this.doc.querySelectorAll('body *');
+  _checkAdditions(elements) {
+    if (elements) {
+      for (let i = 0, jLen = elements.length, element; i < jLen; i++) {
+        element = elements[i];
+        if (this._isStyledElement(element)) {
+          if (!element.ready) {
+            element.ready = true;
+            this.listener.add.call(element, element);
+          }
+        }
+      }
+    } else {
+      const elements = this.doc.querySelectorAll('body *');
 
-    for (let i = 0, jLen = elements.length, element; i < jLen; i++) {
-      element = elements[i];
-      if (this._isStyledElement(element)) {
-        if (!element.ready) {
-          element.ready = true;
-          this.listener.add.call(element, element);
+      for (let i = 0, jLen = elements.length, element; i < jLen; i++) {
+        element = elements[i];
+        if (this._isStyledElement(element)) {
+          if (!element.ready) {
+            element.ready = true;
+            this.listener.add.call(element, element);
+          }
         }
       }
     }
+
   }
 
   _checkDeletions(elements) {
@@ -54,7 +69,7 @@ export class DOMWatcher {
       //   (mutation.removedNodes.length != 0 ||
       //     mutation.addedNodes.length != 0)) {
       if (mutation.addedNodes && mutation.addedNodes.length) {
-        this._checkAdditions();
+        this._checkAdditions(mutation.addedNodes);
       }
       if (mutation.removedNodes && mutation.removedNodes.length) {
         this._checkDeletions(mutation.removedNodes);
@@ -104,11 +119,12 @@ export class ATTRWatcher {
       const emitAttrs = [];
       let emit = false;
 
-      mutations.forEach(mutation => {
+      for (let i = 0, jLen = mutations.length, mutation; i < jLen; i++) {
+        mutation = mutations[i];
         if (self.properties.find(watchedAttr => watchedAttr === mutation.attributeName)) {
           emit = true;
         }
-      });
+      }
 
       if (emit) {
         for (let i = attrs.length - 1; i >= 0; i--) {

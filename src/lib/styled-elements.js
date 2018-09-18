@@ -60,7 +60,7 @@ class StyledElements {
   }
 
   handleChanges(element, attrs) {
-    console.log('Change element: ', element, attrs);
+    // console.log('Change element: ', element, attrs);
     this.ruleManager.setRule(element, attrs);
     // console.log(this.ruleManager.rules);
   }

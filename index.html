@@ -18,6 +18,19 @@
   document.addEventListener('DOMContentLoaded', function () {
     var styledElements = new StyledElements();
 
+    function append(){
+      var c = document.createDocumentFragment();
+      for (var i=0; i < 100000; i++) {
+        var newEl = document.createElement('DIV');
+        newEl.innerHTML = 'Dynamically added ' + (i + 1);
+        newEl.setAttribute('se.padding', '10px');
+        newEl.setAttribute('se.color', getRandomColor());
+        c.appendChild(newEl);
+      }
+
+      document.getElementById('app').appendChild(c);
+    }
+
     setTimeout(() => {
       document.getElementById('text1').setAttribute('se.padding', '12px');
       document.getElementById('text1').setAttribute('se.color', 'yellow');
@@ -28,7 +41,41 @@
       document.getElementById('text1').setAttribute('se.color', 'red');
       document.getElementById('text2').setAttribute('se.padding', '10px');
       document.getElementById('text2').setAttribute('se.color', 'red');
+
+      var newEl = document.createElement('DIV');
+      newEl.innerHTML = 'Dynamically added';
+      newEl.setAttribute('se.padding', '15px');
+      newEl.setAttribute('se.color', 'green');
+      document.getElementById('app').appendChild(newEl);
+
+      // console.log("Process start" + performance.now());
+      // var t0 = performance.now();
+      // append();
+      // var t1 = performance.now();
+      // console.log("Insert 100000 nodes took " + (t1 - t0) + " milliseconds.")
+
     }, 5000);
+
+    function getRandomColor() {
+      var letters = '0123456789ABCDEF';
+      var color = '#';
+      for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+
+
+
+
+    // for (var i = 0; i < 100000; i++) {
+    //
+    //   var newEl = document.createElement('DIV');
+    //   newEl.innerHTML = 'Dynamically added ' + (i + 1);
+    //   newEl.setAttribute('se.padding', '10px');
+    //   newEl.setAttribute('se.color', getRandomColor());
+    //   document.getElementById('app').appendChild(newEl);
+    // }
 
     // initialize
     styledElements.init();
