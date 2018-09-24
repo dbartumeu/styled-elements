@@ -1,4 +1,5 @@
 // import dependencies
+import {isValidAttr} from '../util/attrs';
 
 export class DOMWatcher {
   constructor(uIdName) {
@@ -26,6 +27,7 @@ export class DOMWatcher {
   }
 
   _checkAdditions(elements) {
+
     if (elements) {
       for (let i = 0, jLen = elements.length, element; i < jLen; i++) {
         element = elements[i];
@@ -105,9 +107,12 @@ export class DOMWatcher {
 export class ATTRWatcher {
   _elements = {};
 
-  constructor(uIdName, selector, properties) {
+  constructor(uIdName, selector, mediaQueries, pseudoSelectors, properties) {
     this.uIdName = uIdName;
-    this.properties = properties.map(property => selector + property);
+    this.selector = selector;
+    this.mediaQueries = mediaQueries;
+    this.pseudoSelectors = pseudoSelectors;
+    this.properties = properties;
   }
 
   watch(element, changesFn) {
@@ -121,14 +126,14 @@ export class ATTRWatcher {
 
       for (let i = 0, jLen = mutations.length, mutation; i < jLen; i++) {
         mutation = mutations[i];
-        if (self.properties.find(watchedAttr => watchedAttr === mutation.attributeName)) {
+        if (isValidAttr(mutation.attributeName, self.mediaQueries, self.pseudoSelectors, self.properties)) {
           emit = true;
         }
       }
 
       if (emit) {
         for (let i = attrs.length - 1; i >= 0; i--) {
-          if (self.properties.find(watchedAttr => watchedAttr === attrs[i].name)) {
+          if (isValidAttr(attrs[i].name, self.mediaQueries, self.pseudoSelectors, self.properties)) {
             emitAttrs.push({name: attrs[i].name, value: attrs[i].value});
           }
         }
@@ -141,7 +146,7 @@ export class ATTRWatcher {
       const emitAttrs = [];
 
       for (let i = attrs.length - 1; i >= 0; i--) {
-        if (this.properties.find(property => property === attrs[i].name)) {
+        if (isValidAttr(attrs[i].name, self.mediaQueries, self.pseudoSelectors, self.properties)) {
           emitAttrs.push({name: attrs[i].name, value: attrs[i].value});
         }
       }
@@ -151,7 +156,7 @@ export class ATTRWatcher {
       }
     }
 
-    this._elements[id].observe(element, {attributes: true, attributeFilter: this.attrs});
+    this._elements[id].observe(element, {attributes: true});
   }
 
   unwatch(id) {

@@ -4,12 +4,63 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Styled Elements</title>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900|Roboto:100,300,400,500,700,900" rel="stylesheet">
+
+  <style type="text/css">
+
+  @font-face {
+    font-family: futura-pt;
+    src: url(https://use.typekit.net/af/ae4f6c/000000000000000000010096/27/l?subset_id=2&fvd=n3&v=3) format("woff2"), url(https://use.typekit.net/af/ae4f6c/000000000000000000010096/27/d?subset_id=2&fvd=n3&v=3) format("woff"), url(https://use.typekit.net/af/ae4f6c/000000000000000000010096/27/a?subset_id=2&fvd=n3&v=3) format("opentype");
+    font-weight: 300;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: futura-pt;
+    src: url(https://use.typekit.net/af/9b05f3/000000000000000000013365/27/l?subset_id=2&fvd=n4&v=3) format("woff2"), url(https://use.typekit.net/af/9b05f3/000000000000000000013365/27/d?subset_id=2&fvd=n4&v=3) format("woff"), url(https://use.typekit.net/af/9b05f3/000000000000000000013365/27/a?subset_id=2&fvd=n4&v=3) format("opentype");
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: futura-pt;
+    src: url(https://use.typekit.net/af/309dfe/000000000000000000010091/27/l?subset_id=2&fvd=n7&v=3) format("woff2"), url(https://use.typekit.net/af/309dfe/000000000000000000010091/27/d?subset_id=2&fvd=n7&v=3) format("woff"), url(https://use.typekit.net/af/309dfe/000000000000000000010091/27/a?subset_id=2&fvd=n7&v=3) format("opentype");
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: futura-pt;
+    src: url(https://use.typekit.net/af/cf3e4e/000000000000000000010095/27/l?subset_id=2&fvd=i4&v=3) format("woff2"), url(https://use.typekit.net/af/cf3e4e/000000000000000000010095/27/d?subset_id=2&fvd=i4&v=3) format("woff"), url(https://use.typekit.net/af/cf3e4e/000000000000000000010095/27/a?subset_id=2&fvd=i4&v=3) format("opentype");
+    font-weight: 400;
+    font-style: italic;
+  }
+
+  @font-face {
+    font-family: futura-pt;
+    src: url(https://use.typekit.net/af/eb729a/000000000000000000010092/27/l?subset_id=2&fvd=i7&v=3) format("woff2"), url(https://use.typekit.net/af/eb729a/000000000000000000010092/27/d?subset_id=2&fvd=i7&v=3) format("woff"), url(https://use.typekit.net/af/eb729a/000000000000000000010092/27/a?subset_id=2&fvd=i7&v=3) format("opentype");
+    font-weight: 700;
+    font-style: italic;
+  }
+
+  @font-face {
+    font-family: din-condensed-web;
+    src: url(https://use.typekit.net/af/cfbead/0000000000000000000146b3/27/l?subset_id=2&fvd=n4&v=3) format("woff2"), url(https://use.typekit.net/af/cfbead/0000000000000000000146b3/27/d?subset_id=2&fvd=n4&v=3) format("woff"), url(https://use.typekit.net/af/cfbead/0000000000000000000146b3/27/a?subset_id=2&fvd=n4&v=3) format("opentype");
+    font-weight: 400;
+    font-style: normal;
+  }</style>
+
+  <style>
+    * {
+      font-family: futura-pt;
+    }
+  </style>
 </head>
 <body>
 <div id="app">
-  <div se.padding="10px">some text</div>
-  <div id="text1" se.color="red">some text1</div>
-  <div id="text2" se.color="red">some text2</div>
+  <div se.padding="10px" se.font-family="futura-pt">some text</div>
+  <div id="text1" se.color="red" se.hover.color="blue" se.gt-sm.color="orange" se.font-family="Montserrat">some text1</div>
+  <div id="text2" se.color="red" se.font-family="Roboto">some text2</div>
   <div se.padding="10px">some text3</div>
 </div>
 
@@ -18,9 +69,9 @@
   document.addEventListener('DOMContentLoaded', function () {
     var styledElements = new StyledElements();
 
-    function append(){
+    function append() {
       var c = document.createDocumentFragment();
-      for (var i=0; i < 100000; i++) {
+      for (var i = 0; i < 100000; i++) {
         var newEl = document.createElement('DIV');
         newEl.innerHTML = 'Dynamically added ' + (i + 1);
         newEl.setAttribute('se.padding', '10px');
@@ -31,30 +82,30 @@
       document.getElementById('app').appendChild(c);
     }
 
-    setTimeout(() => {
-      document.getElementById('text1').setAttribute('se.padding', '12px');
-      document.getElementById('text1').setAttribute('se.color', 'yellow');
-    }, 2000);
-
-    setTimeout(() => {
-      document.getElementById('text1').setAttribute('se.padding', '10px');
-      document.getElementById('text1').setAttribute('se.color', 'red');
-      document.getElementById('text2').setAttribute('se.padding', '10px');
-      document.getElementById('text2').setAttribute('se.color', 'red');
-
-      var newEl = document.createElement('DIV');
-      newEl.innerHTML = 'Dynamically added';
-      newEl.setAttribute('se.padding', '15px');
-      newEl.setAttribute('se.color', 'green');
-      document.getElementById('app').appendChild(newEl);
-
-      // console.log("Process start" + performance.now());
-      // var t0 = performance.now();
-      // append();
-      // var t1 = performance.now();
-      // console.log("Insert 100000 nodes took " + (t1 - t0) + " milliseconds.")
-
-    }, 5000);
+    // setTimeout(() => {
+    //   document.getElementById('text1').setAttribute('se.padding', '12px');
+    //   document.getElementById('text1').setAttribute('se.color', 'yellow');
+    // }, 2000);
+    //
+    // setTimeout(() => {
+    //   document.getElementById('text1').setAttribute('se.padding', '10px');
+    //   document.getElementById('text1').setAttribute('se.color', 'red');
+    //   document.getElementById('text2').setAttribute('se.padding', '10px');
+    //   document.getElementById('text2').setAttribute('se.color', 'red');
+    //
+    //   var newEl = document.createElement('DIV');
+    //   newEl.innerHTML = 'Dynamically added';
+    //   newEl.setAttribute('se.padding', '15px');
+    //   newEl.setAttribute('se.color', 'green');
+    //   document.getElementById('app').appendChild(newEl);
+    //
+    //   // console.log("Process start" + performance.now());
+    //   // var t0 = performance.now();
+    //   // append();
+    //   // var t1 = performance.now();
+    //   // console.log("Insert 100000 nodes took " + (t1 - t0) + " milliseconds.")
+    //
+    // }, 5000);
 
     function getRandomColor() {
       var letters = '0123456789ABCDEF';
@@ -64,8 +115,6 @@
       }
       return color;
     }
-
-
 
 
     // for (var i = 0; i < 100000; i++) {

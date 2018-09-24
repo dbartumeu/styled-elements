@@ -2,6 +2,8 @@
 import Hashids from 'hashids';
 import {ATTRWatcher, DOMWatcher} from './watchers';
 import {properties} from '../config/attrs';
+import {defaults} from '../config';
+import {generateMediaQueries} from '../util/generators';
 import RuleManager from './rule-manager';
 
 let instance = null;
@@ -18,9 +20,13 @@ class StyledElements {
     }
 
     this.hashids = new Hashids('styled_elements', 5);
+    this.mediaQueries = generateMediaQueries(defaults.breakpoints);
+    this.pseudoSelectors = defaults.pseudoSelectors;
+
     this.domWatcher = new DOMWatcher(this._uIdName);
-    this.attrWatcher = new ATTRWatcher(this._uIdName, this._selector, properties);
-    this.ruleManager = new RuleManager();
+    this.attrWatcher =
+      new ATTRWatcher(this._uIdName, this._selector, Object.keys(this.mediaQueries), this.pseudoSelectors, properties);
+    this.ruleManager = new RuleManager(this.mediaQueries);
 
     this._config = config || {};
     this._instatiated = new Date();
